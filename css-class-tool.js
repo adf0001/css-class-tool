@@ -77,44 +77,34 @@ var setClassByElement = function (classList, addElList, removeElList, toggleElLi
 var mapFramePrefix = {};	//map framePrefix to the binding object
 
 var bindFramePrefix = function (defaultFramePrefix) {
-	if (!defaultFramePrefix || !defaultFramePrefix.match(/^\w+$/)) return null;
+	if (typeof defaultFramePrefix !== "string") return null;
 
 	if (defaultFramePrefix in mapFramePrefix) return mapFramePrefix[defaultFramePrefix];
 
 	//binding
 	//console.log("new framePrefix binding")
-	var _setClass = function (elList, addClassList, removeClassList, toggleClassList, framePrefix) {
+	var entry = function (elList, addClassList, removeClassList, toggleClassList, framePrefix) {
 		return setClass(elList, addClassList, removeClassList, toggleClassList, framePrefix || defaultFramePrefix);
 	}
 
-	_setClass.set = _setClass;
+	entry.set = entry;
 
-	_setClass.setElement = _setClass.setEl = function (classList, addElList, removeElList, toggleElList, framePrefix) {
+	entry.setElement = entry.setEl = function (classList, addElList, removeElList, toggleElList, framePrefix) {
 		return setClassByElement(classList, addElList, removeElList, toggleElList, framePrefix || defaultFramePrefix);
 	}
-	_setClass.add = function (elList, classList, framePrefix) {
+	entry.add = function (elList, classList, framePrefix) {
 		return addClass(elList, classList, framePrefix || defaultFramePrefix);
 	};
-	_setClass.toggle = function (elList, classList, framePrefix) {
+	entry.toggle = function (elList, classList, framePrefix) {
 		return toggleClass(elList, classList, framePrefix || defaultFramePrefix);
 	};
 
-	_setClass.remove = removeClass;
-	_setClass.bind = bindFramePrefix;
+	entry.remove = removeClass;
+	entry.bind = bindFramePrefix;
 
-	return mapFramePrefix[defaultFramePrefix] = _setClass;		//cache
+	return mapFramePrefix[defaultFramePrefix] = entry;		//cache
 }
 
 //module
 
-module.exports = exports = setClass;
-
-exports.set = setClass;
-exports.setElement = setClassByElement;
-exports.setEl = setClassByElement;
-
-exports.add = addClass;
-exports.remove = removeClass;
-exports.toggle = toggleClass;
-
-exports.bind = bindFramePrefix;
+module.exports = bindFramePrefix("");

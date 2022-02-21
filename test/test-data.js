@@ -35,7 +35,7 @@ module.exports = {
 			"></input>toggle by setEl()</label><br>" +
 			"<label><input type=checkbox " +
 			"	onchange=\"var chs=parentNode.parentNode.childNodes;css_class_tool.setEl('selected',null,null,[chs[0],chs[1],chs[2],chs[3]]);\"" +
-			"></input>setEl() toggle	//may fail at firstly click</label><br>" +
+			"></input>setEl() toggle	//may fail at firstly click, without prefixing 'ht'</label><br>" +
 			"</div>";
 	},
 
